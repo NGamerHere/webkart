@@ -1,0 +1,72 @@
+# .NET build output
+bin/
+obj/
+out/
+Debug/
+Release/
+
+# VS Code
+.vscode/
+
+# Rider
+.idea/
+
+# Visual Studio
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+
+# Environment variables / secrets
+.env
+*.env
+**/*.env
+
+# EF Core Migrations backup files
+*MigrationsSnapshot.cs
+
+# ASP.NET Core generated files
+wwwroot/
+
+# User-specific files
+*.rsuser
+*.sln.*
+*.swp
+*.tmp
+
+# NuGet packages (local)
+*.nupkg
+*.snupkg
+packages/
+
+# DotCover
+*.dcov
+*.dotCover
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Python virtual envs (if you accidentally create one)
+venv/
+env/
+
+# JetBrains caches
+/.fleet/
+
+# Database files (optional - depends on you)
+*.db-shm
+*.db-wal
+
+# SQLite file (❗ only ignore if you don't want it in repo)
+# Uncomment next line if you don't want to commit the SQLite DB
+# *.db
+
+# Publish folder
+publish/
