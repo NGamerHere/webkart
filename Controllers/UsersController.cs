@@ -1,66 +1,41 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyAdvancedApi.Models;
 using MyAdvancedApi.Data;
+using System.Security.Claims;
+using MyAdvancedApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace MyAdvancedApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly UserService _userService;
 
-        public UsersController(AppDbContext context){
+        public UsersController(AppDbContext context,UserService userService){
          _context = context;
+         _userService=userService;
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        
+        [HttpGet("me")]
+        public IActionResult GetMyProfile()
         {
-            List<User> users = await _context.Users.ToListAsync();
-            return Ok(users);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
-            return Ok(user);
+        
+            return Ok(new { 
+                MyId = userId, 
+            });
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return Ok(user);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, User updatedUser)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) return NotFound();
-
-            user.Name = updatedUser.Name;
-            user.Age = updatedUser.Age;
-            await _context.SaveChangesAsync();
-            return Ok(user);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) { return NotFound(new { message = "User not found" }); }
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return Ok(new { message = "User deleted successfully" });
-        }
+        
+        
+        
     }
 }

@@ -16,10 +16,8 @@ namespace MyAdvancedApi.Models
         [Phone]
         public required string phone { get; set; }
 
-        [Required]
-        [MinLength(6)]
         [JsonIgnore]
-        public required string Password { get; set; }
+        public string? Password { get; set; }
 
         public int Age { get; set; }
 
