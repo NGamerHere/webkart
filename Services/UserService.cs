@@ -12,6 +12,11 @@ public class UserService {
         _context = context;
     }
 
+    public async Task<User?> GetUserById(int id)
+    {
+        return await _context.Users.FirstOrDefaultAsync(u => u.Id==id);
+    }
+
     public async Task<User?> GetUserByPhoneAndEmail(string login)
     {
         return await _context.Users.FirstOrDefaultAsync(u => u.email == login || u.phone == login);

@@ -13,21 +13,25 @@ namespace MyAdvancedApi.Controllers
     [Authorize]
     public class UsersController : ControllerBase
     {
-        private readonly AppDbContext _context;
         private readonly UserService _userService;
 
-        public UsersController(AppDbContext context,UserService userService){
-         _context = context;
+        public UsersController(UserService userService){
          _userService=userService;
         }
         
         [HttpGet("me")]
-        public IActionResult GetMyProfile()
+        public async Task<IActionResult> GetMyProfile()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
-                return Unauthorized();
+                return Unauthorized("User not found");
+            }
+
+            var user = await _userService.GetUserById(int.Parse(userId));
+            if (user == null)
+            {
+                return Unauthorized("User not found");
             }
         
             return Ok(new { 

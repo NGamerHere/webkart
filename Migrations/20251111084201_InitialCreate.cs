@@ -26,7 +26,7 @@ namespace MyAdvancedApi.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     phone = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
+                    Password = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Age = table.Column<int>(type: "int", nullable: false)
                 },

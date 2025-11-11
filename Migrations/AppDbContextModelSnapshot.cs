@@ -37,7 +37,6 @@ namespace MyAdvancedApi.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("email")

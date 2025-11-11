@@ -11,7 +11,7 @@ using MyAdvancedApi.Data;
 namespace MyAdvancedApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251106124809_InitialCreate")]
+    [Migration("20251111084201_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -40,7 +40,6 @@ namespace MyAdvancedApi.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("email")
