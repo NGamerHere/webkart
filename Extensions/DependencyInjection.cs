@@ -1,7 +1,6 @@
+using WebCart.Services;
 
-using MyAdvancedApi.Services;
-
-namespace MyAdvancedApi.Extensions;
+namespace WebCart.Extensions;
 
 public static class DependencyInjection
 {
@@ -10,6 +9,7 @@ public static class DependencyInjection
         // --- Add ALL your services here ---
         services.AddScoped<UserService>();
         services.AddScoped<TokenService>();
+        services.AddScoped<CompanyService>();
 
         return services;
     }

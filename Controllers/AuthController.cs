@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using MyAdvancedApi.Data;
-using MyAdvancedApi.DTO;
+using WebCart.Data;
 using Microsoft.AspNetCore.Authorization;
-using MyAdvancedApi.Models;
-using MyAdvancedApi.Services;
+using WebCart.DTO;
+using WebCart.Enum;
+using WebCart.Models;
+using WebCart.Services;
 
-namespace MyAdvancedApi.Controllers;
+namespace WebCart.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -25,19 +26,31 @@ public class AuthController : ControllerBase {
     public async Task<IActionResult> Login(LoginInfo loginInfo)
     {
         User? user = await _userService.GetUserByPhoneAndEmail(loginInfo.Login);
-        if (user == null && user.PasswordCheck(loginInfo.Password) )
+        if (user != null && user.PasswordCheck(loginInfo.Password) )
         {
-            return Unauthorized("Invalid username or password.");
+            string token = _tokenService.CreateToken(user);
+            return Ok(new { Message = "Login Successful" , token });
         }
-        string token = _tokenService.CreateToken(user);
-        return Ok(new { Message = "Login Successful" , token });
+        return Unauthorized(new {error = "Invalid username or password."});
     }
     
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(User user)
+    [HttpPost("register/{role}")]
+    public async Task<IActionResult> Register(RegisterDto registerDto,string role)
     {
-        User savedUser = await _userService.createNewUser(user);
-        return Ok(new { message = "User created successfully", user = savedUser });
+        if (role == "Seller" || role == "User" )
+        {
+            User user = new User {
+                Name = registerDto.Name,
+                Password = registerDto.Password,
+                email = registerDto.email,
+                phone = registerDto.phone,
+                Role = role == "Seller" ? Role.Seller :  Role.User
+            };
+            User savedUser = await _userService.createNewUser(user);
+            return Ok(new { message = "User created successfully", user = savedUser });
+        } else {
+          return  BadRequest(new { error = "role is invalid" });
+        }
     }
 
 

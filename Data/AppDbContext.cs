@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using MyAdvancedApi.Models;
+using WebCart.Models;
 
-namespace MyAdvancedApi.Data;
+namespace WebCart.Data;
 
 public class AppDbContext : DbContext
 {
@@ -11,4 +11,5 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<Company> Companies => Set<Company>();
 }

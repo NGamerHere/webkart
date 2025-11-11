@@ -1,8 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
+using WebCart.Enum;
 
-namespace MyAdvancedApi.Models
+namespace WebCart.Models
 {
+    [Index(nameof(email), IsUnique = true)]
+    [Index(nameof(phone), IsUnique = true)]
     public class User
     {
         public int Id { get; set; }
@@ -20,6 +24,10 @@ namespace MyAdvancedApi.Models
         public string? Password { get; set; }
 
         public int Age { get; set; }
+        
+        public Role  Role { get; set; }
+        
+        public ICollection<Company> Companies { get; set; } = new List<Company>();
 
         public bool PasswordCheck(string inputPassword)
         {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MyAdvancedApi.Data;
-using MyAdvancedApi.Models;
+using WebCart.Data;
+using WebCart.Models;
 
-namespace MyAdvancedApi.Services;
+namespace WebCart.Services;
 
 public class UserService {
     

@@ -1,4 +1,4 @@
-namespace MyAdvancedApi.Enum;
+namespace WebCart.Enum;
 
 public enum Role
 {

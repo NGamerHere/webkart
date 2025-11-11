@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-using MyAdvancedApi.Data;
-using MyAdvancedApi.Extensions;
+using WebCart.Data;
+using WebCart.Extensions;
 using dotenv.net;
 DotEnv.Load();
 
@@ -16,7 +16,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     ));
 
 builder.Services.AddControllers();
-builder.Services.AddAuthorization();
 var jwtKey = envVars["JWT_Key"] ?? throw new Exception("JWT Key missing in configuration.");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -30,6 +29,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ADMIN", policy => policy.RequireRole("Admin")); 
+    options.AddPolicy("SELLER", policy => policy.RequireRole("Seller"));
+    options.AddPolicy("USER", policy => policy.RequireRole("User"));
+    options.AddPolicy("AdminOrSeller", policy => policy.RequireRole("Admin", "Seller"));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyAdvancedApi.Models;
-using MyAdvancedApi.Data;
 using System.Security.Claims;
-using MyAdvancedApi.Services;
-using Microsoft.EntityFrameworkCore;
+using WebCart.Services;
 
-namespace MyAdvancedApi.Controllers
+namespace WebCart.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

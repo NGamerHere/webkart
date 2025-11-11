@@ -1,4 +1,4 @@
-namespace MyAdvancedApi.DTO;
+namespace WebCart.DTO;
 public class LoginInfo
 {
     public required string Login { get; set; }
