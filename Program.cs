@@ -4,17 +4,20 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using MyAdvancedApi.Data;
 using MyAdvancedApi.Extensions;
+using dotenv.net;
+DotEnv.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+var envVars = DotEnv.Read();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+        envVars["DB_LINK"],
+        ServerVersion.AutoDetect(envVars["DB_LINK"])
     ));
 
 builder.Services.AddControllers();
 builder.Services.AddAuthorization();
-var jwtKey = builder.Configuration.GetValue<string>("Jwt:Key") ?? throw new Exception("JWT Key missing in configuration.");
+var jwtKey = envVars["JWT_Key"] ?? throw new Exception("JWT Key missing in configuration.");
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
